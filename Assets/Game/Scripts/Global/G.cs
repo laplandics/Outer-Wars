@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+
+public static class G
+{
+    private static readonly Dictionary<Type, GameSettings> Settings = new();
+    private static readonly Dictionary<Type, GameState> States = new();
+    private static readonly Dictionary<Type, SceneManager> Managers =  new();
+    private static readonly Dictionary<Type, GameService> Services = new();
+
+    public static void CacheGameSettings(List<GameSettings> settings)
+    {
+        foreach (var setting in settings) { Settings.Add(setting.GetType(), setting); }
+    }
+    
+    public static void CacheGameStates(List<GameState> states)
+    {
+        foreach (var state in states) { States.Add(state.GetType(), state); }
+    }
+    
+    public static void CacheGameServices(List<GameService> services)
+    {
+        foreach (var service in services) { Services.Add(service.GetType(), service); }
+    }
+    
+    public static void CacheSceneManagers(List<SceneManager> managers)
+    {
+        foreach (var manager in managers) { Managers.Add(manager.GetType(), manager); }
+    }
+
+    public static T GetSettings<T>()
+    {
+        if (!Settings.TryGetValue(typeof(T), out var setting)) return default;
+        return setting is not T searchingSetting ? default : searchingSetting;
+    }
+    
+    public static T GetState<T>()
+    {
+        if (!States.TryGetValue(typeof(T), out var state)) return default;
+        return state is not T searchingState ? default : searchingState;
+    }
+
+    public static T GetService<T>()
+    {
+        if (!Services.TryGetValue(typeof(T), out var service)) return default;
+        return service is not T searchingService ? default : searchingService;
+    }
+    
+    public static T GetManager<T>()
+    {
+        if (!Managers.TryGetValue(typeof(T), out var manager)) return default;
+        return manager is not T searchingManager ? default : searchingManager;
+    }
+
+    public static void ResetData() { Managers.Clear(); Services.Clear(); States.Clear(); Settings.Clear(); }
+}
