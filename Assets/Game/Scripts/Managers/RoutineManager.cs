@@ -9,7 +9,7 @@ public class RoutineManager : SceneManager
     private readonly List<Action> _fixedUpdateActions = new();
     private readonly List<Action> _lateUpdateActions = new();
     
-    public override IEnumerator Initialize() { yield break; }
+    public override void Initialize() { }
     
     public Coroutine StartRoutine(IEnumerator routine) {var newRoutine = StartCoroutine(routine); return newRoutine;}
     public void EndRoutine(Coroutine coroutine) {StopCoroutine(coroutine);}

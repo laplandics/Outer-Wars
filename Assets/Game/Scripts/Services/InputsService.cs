@@ -1,17 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "InputsService", menuName = "Services/InputsService")]
 public class InputsService : GameService
 {
     private GameInputs _gameInputs;
     
-    public override IEnumerator Run()
-    {
-        _gameInputs = new GameInputs();
-        _gameInputs.Disable();
-        yield break;
-    }
+    public override void Run() { _gameInputs = new GameInputs(); _gameInputs.Enable(); }
     
     public GameInputs GetGameInputs() => _gameInputs;
 

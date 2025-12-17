@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     {
         return parent ? Instantiate(prefab, position, rotation, parent) : Instantiate(prefab, position, rotation);
     }
-    
+
     public static void Despawn(GameObject obj) => Destroy(obj);
     public static void DespawnImmediate(GameObject obj) => DestroyImmediate(obj);
 }

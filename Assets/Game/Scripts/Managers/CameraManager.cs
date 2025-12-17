@@ -1,31 +1,28 @@
-﻿using System.Collections;
-using Unity.Cinemachine;
+﻿using GlobalEvents;
 using UnityEngine;
 
 public class CameraManager : SceneManager
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private CinemachineCamera mainCamera;
-    private CameraMover _cameraMover;
+    [SerializeField] private GameCameraData data;
+    private GameCameraConfig _config;
     
-    public override IEnumerator Initialize()
+    public override void Initialize()
     {
-        G.GetState<IsGameStarted>().OnChange += OnGameStart;
-        yield break;
+        Eventer.Subscribe<ManagersInitialized>(InitializeCamera);
     }
 
-    private void OnGameStart(bool gameStarted)
+    private void InitializeCamera(ManagersInitialized _)
     {
-        if(!gameStarted) return;
-        var gameInputs = new GameInputs();
-        _cameraMover = new CameraMover(gameInputs, mainCamera, target);
-        G.GetState<IsGameStarted>().OnChange -= OnGameStart;
+        _config = new GameCameraConfig(OnLoad, data);
     }
+
+    private void OnLoad() { _config.Spawn(); }
 
     public override void Deinitialize()
     {
-        G.GetState<IsGameStarted>().OnChange -= OnGameStart;
-        _cameraMover.Dispose();
-        _cameraMover = null;
+        Eventer.Unsubscribe<ManagersInitialized>(InitializeCamera);
+        _config.Despawn();
+        _config.DeleteConfig();
+        _config = null;
     }
 }
