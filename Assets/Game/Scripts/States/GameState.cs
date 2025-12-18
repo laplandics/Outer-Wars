@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class GameState : ScriptableObject
 {
-    public virtual void Load() {}
+    public virtual IEnumerator Load() { yield break; }
     public virtual void Unload() {}
 }

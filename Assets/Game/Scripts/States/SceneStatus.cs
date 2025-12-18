@@ -1,29 +1,26 @@
-﻿using UnityEngine;
-using GlobalEvents;
+﻿using System.Collections;
+using UnityEngine;
 
-public enum SceneType { Menu, Battle, Explore }
-
-[CreateAssetMenu(fileName = "SceneStatus", menuName = "States/SceneStatus")]
+[CreateAssetMenu(fileName =  "SceneStatus", menuName = "States/SceneStatus")]
 public class SceneStatus : GameState
 {
-    private bool _isSceneStarted;
-    private bool _isScenePaused;
+    [SerializeField] private bool isSceneStarted;
+    public bool IsSceneStarted { get => isSceneStarted; private set => isSceneStarted = value; }
 
-    public bool LifeStatus
+    public override IEnumerator Load()
     {
-        get => _isSceneStarted;
-        private set { _isSceneStarted = value; Eventer.Invoke(new SceneStarted()); }
+        Eventer.Subscribe<SceneStarted>(SetSceneStarted);
+        Eventer.Subscribe<SceneEnded>(SetSceneEnded);
+        yield break;
     }
 
-    public bool PauseStatus
+    private void SetSceneStarted(SceneStarted _) { IsSceneStarted = true; }
+
+    private void SetSceneEnded(SceneEnded obj) { IsSceneStarted = false; }
+
+    public override void Unload()
     {
-        get => _isScenePaused;
-        private set { _isScenePaused = value; Eventer.Invoke(new SceneEnded()); }
+        Eventer.Unsubscribe<SceneStarted>(SetSceneStarted);
+        Eventer.Unsubscribe<SceneEnded>(SetSceneEnded);
     }
-    
-    public void StartScene() => LifeStatus = true;
-    public void EndScene() => LifeStatus = false;
-    
-    public void PauseScene() => PauseStatus = true;
-    public void ResumeScene() => PauseStatus = false;
 }

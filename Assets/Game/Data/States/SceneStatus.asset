@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e109a3da41946ecb73d4cd642d01a74, type: 3}
+  m_Script: {fileID: 11500000, guid: 9308625da3484366a24d8ec338ff83fb, type: 3}
   m_Name: SceneStatus
   m_EditorClassIdentifier: Assembly-CSharp::SceneStatus
+  isSceneStarted: 0

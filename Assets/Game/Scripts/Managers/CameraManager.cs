@@ -1,28 +1,27 @@
-﻿using GlobalEvents;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CameraManager : SceneManager
 {
-    [SerializeField] private GameCameraData data;
-    private GameCameraConfig _config;
+    [SerializeField] private GameCameraData cameraData;
+    private GameCamera _cameraEntity;
     
-    public override void Initialize()
+    public override IEnumerator Initialize()
     {
-        Eventer.Subscribe<ManagersInitialized>(InitializeCamera);
+        Eventer.Subscribe<ManagersInitialized>(SpawnCamera);
+        yield break;
     }
 
-    private void InitializeCamera(ManagersInitialized _)
+    private void SpawnCamera(ManagersInitialized _)
     {
-        _config = new GameCameraConfig(OnLoad, data);
+        _cameraEntity = E.NewEntity<GameCamera>(cameraData);
+        _cameraEntity.Load(() => {});
     }
 
-    private void OnLoad() { _config.Spawn(); }
 
     public override void Deinitialize()
     {
-        Eventer.Unsubscribe<ManagersInitialized>(InitializeCamera);
-        _config.Despawn();
-        _config.DeleteConfig();
-        _config = null;
+        Eventer.Unsubscribe<ManagersInitialized>(SpawnCamera);
+        E.DeleteEntity(_cameraEntity);
     }
 }

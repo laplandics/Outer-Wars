@@ -1,25 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public abstract class GameEntity : MonoBehaviour
 {
-    public virtual void OnAppear() {}
+    [SerializeReference] public EntityData data;
+    
+    public virtual void Load(Action onLoad) { onLoad.Invoke(); }
     public virtual void OnDisappear() {}
-}
 
-public abstract class EntityInstance : GameEntity
-{
-    [SerializeReference] public EntityConfig config;
-    [SerializeReference] public List<EntityComponent> components;
-
-    public TComponent GetEntityComponent<TComponent>() where TComponent : EntityComponent
+    protected void LoadAsset<T>(Action<T> callback, string label, string componentName, EntityData componentData = null) where T : EntityComponent
     {
-        foreach (var component in components) {if(component is TComponent entityComponent) return entityComponent;}
-        return null;
+        T instance;
+        Addressables.LoadAssetsAsync<GameObject>(label, prefab =>
+        {
+            var component = prefab.GetComponent<T>();
+            if (component == null) return;
+            if (component.GetType().Name != componentName) return;
+            instance = Spawner.Spawn(prefab, Vector3.zero, Quaternion.identity, transform).GetComponent<T>();
+            instance.name = prefab.name;
+            instance.owner = this;
+            if (componentData != null) instance.data = componentData;
+            instance.Load(() => callback.Invoke(instance));
+        }).Completed += h =>
+        {
+            if (h.Status != AsyncOperationStatus.Succeeded) throw h.OperationException;
+            h.Release();
+        };
     }
 }
 
 public abstract class EntityComponent : GameEntity
 {
-    [SerializeReference] public EntityInstance instance;
+    [SerializeReference][ReadOnly] public GameEntity owner;
 }
+
+[Serializable]
+public abstract class EntityData { public string entityName; }
+
+[Serializable]
+public abstract class EntityState {}

@@ -15,25 +15,23 @@ MonoBehaviour:
   m_GroupName: EntityGroup
   m_GUID: 1e1b1d09b36c56242a0513c3e2df2a83
   m_SerializeEntries:
-  - m_GUID: 03730f8db8e7bb142821c9cb78b9d698
-    m_Address: BattleCamera
+  - m_GUID: 22593fc11e02b674fbc23e56b77f57dc
+    m_Address: SpaceCraft
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - SpaceCraft
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 21c9f7f75b809094b89f3b919fb99cda
-    m_Address: Corvette_Neutral_None
+  - m_GUID: 75d67561e9970084ba2eb2c87e2448d7
+    m_Address: GameUi
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - GameUi
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 77aecf6a2be12b347a1acef9fa9a7d4d
-    m_Address: BattleUi
+  - m_GUID: d3e059883a5269344a1e3478e1e038e1
+    m_Address: GameCamera
     m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7d8cc3aa896790d4c97c62e67e5c0db9
-    m_Address: Corvette
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - GameCamera
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 564ac48aa85f46949bed9700acc8556c, type: 2}

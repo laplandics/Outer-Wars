@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class GameService : ScriptableObject
 {
-    public abstract void Run();
+    public abstract IEnumerator Run();
     public abstract void Stop();
 }

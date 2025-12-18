@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using GlobalEvents;
 
 public class EntryPoint : MonoBehaviour
 {
@@ -29,10 +28,10 @@ public class EntryPoint : MonoBehaviour
         yield return _statesHandle;
         yield return _servicesHandle;
         yield return _managersHandle;
-        LoadGameStates();
-        RunServices();
-        InitializeManagers();
-        _managersPrefabs.Clear();
+        yield return LoadGameStates();
+        yield return RunServices();
+        yield return InitializeManagers();
+        Eventer.Invoke(new SceneStarted());
     }
 
     private void LoadAssets()
@@ -42,35 +41,36 @@ public class EntryPoint : MonoBehaviour
         _managersHandle = Addressables.LoadAssetsAsync<GameObject>(managersLabel.RuntimeKey, manager => _managersPrefabs.Add(manager));
     }
 
-    private void LoadGameStates()
+    private IEnumerator LoadGameStates()
     {
-        foreach (var gameState in _gameStates) { gameState.Load(); }
+        foreach (var gameState in _gameStates) { yield return gameState.Load(); }
         G.CacheGameStates(_gameStates);
         Eventer.Invoke(new StatesLoaded());
     }
     
-    private void RunServices()
+    private IEnumerator RunServices()
     {
-        foreach (var gameService in _gameServices) { gameService.Run(); }
+        foreach (var gameService in _gameServices) { yield return gameService.Run(); }
         G.CacheGameServices(_gameServices);
         Eventer.Invoke(new ServicesLaunched());
     }
     
-    private void InitializeManagers()
+    private IEnumerator InitializeManagers()
     {
         foreach (var prefab in _managersPrefabs)
         {
             _sceneManagers.Add(Spawner.Spawn(prefab, Vector3.zero, Quaternion.identity, managersContainer).GetComponent<SceneManager>());
             _sceneManagers[^1].gameObject.name = prefab.name;
-            _sceneManagers[^1].Initialize();
+            yield return _sceneManagers[^1].Initialize();
         }
+        _managersPrefabs.Clear();
         G.CacheSceneManagers(_sceneManagers);
         Eventer.Invoke(new ManagersInitialized());
     }
 
     private void End()
     {
-        G.GetState<SceneStatus>().EndScene();
+        Eventer.Invoke(new SceneEnded());
         Application.quitting -= End;
         DeinitializeManagers();
         StopServices();
