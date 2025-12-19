@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "BattleCamera_Preset", menuName = "Presets/CameraPreset")]
-public class BattleCameraPreset : Preset
+public class BattleCameraEntityPreset : EntityPreset
 {
     public float moveSpeed;
     public float zoomSpeed;

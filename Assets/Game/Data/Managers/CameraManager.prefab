@@ -45,5 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   cameraData:
-    entityName: Camera
-    cameraController: 1
+    cameraController: 0

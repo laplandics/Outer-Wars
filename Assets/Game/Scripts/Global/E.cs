@@ -4,7 +4,7 @@ public static class E
 {
     public static T NewEntity<T>(EntityData data) where T : GameEntity
     {
-        var entity = new GameObject(data.entityName).AddComponent<T>();
+        var entity = new GameObject(typeof(T).Name).AddComponent<T>();
         entity.data = data;
         return entity;
     }

@@ -1,33 +1,19 @@
 ﻿using System;
 using UnityEngine;
 
-public class GameCamera : GameEntity
+public class GameCamera : GameEntity, IMainEntity
 {
     [SerializeField] private GameCameraState state;
     private GameCameraData _data;
+    private GameCameraLoader _loader;
+
+    public EntityState State => state;
+    public EntityData Data => _data;
+    public GameEntity Instance => this;
 
     public override void Load(Action onLoad)
     {
-        if (data is not GameCameraData gameCameraData) return;
-        _data = gameCameraData;
         state = new GameCameraState();
-        Action<CameraController> callback = controller =>
-            { state.cameraController = controller; onLoad?.Invoke(); };
-        LoadAsset(callback, nameof(GameCamera), _data.cameraController.ToString());
+        _loader = new GameCameraLoader(this, onLoad, data, state);
     }
 }
-
-[Serializable]
-public class GameCameraData : EntityData
-{
-    public CameraController cameraController;
-    public enum  CameraController { None, BattleCameraController }
-}
-
-[Serializable]
-public class GameCameraState : EntityState
-{
-    public CameraController cameraController;
-}
-
-public abstract class CameraController : EntityComponent {}

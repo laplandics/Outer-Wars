@@ -45,5 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiManager
   uiData:
-    entityName: GameUi
-    uiHandler: 1
+    uiHandler: 0

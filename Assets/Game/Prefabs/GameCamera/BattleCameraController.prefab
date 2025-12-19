@@ -59,8 +59,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7293635086815583361}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.52573115, y: 1.4000457e-22, z: -8.652759e-23, w: 0.8506508}
-  m_LocalPosition: {x: 0, y: 10, z: -5}
+  m_LocalRotation: {x: 0.6696976, y: 0.0000000034153003, z: -0.000000003079873, w: 0.74263394}
+  m_LocalPosition: {x: 0, y: 9.681463, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -230,8 +230,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8082519288511168543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.52573115, y: 1.3893473e-22, z: -8.479657e-23, w: 0.85065085}
-  m_LocalPosition: {x: 0, y: 10, z: -5}
+  m_LocalRotation: {x: 0.6696976, y: 0.0000000034152305, z: -0.000000003079796, w: 0.74263394}
+  m_LocalPosition: {x: 0, y: 9.681463, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
   TargetOffset: {x: 0, y: 0, z: 0}
   TrackerSettings:
-    BindingMode: 2
+    BindingMode: 4
     PositionDamping: {x: 0, y: 0, z: 0}
     AngularDampingMode: 0
     RotationDamping: {x: 0, y: 0, z: 0}
@@ -303,15 +303,15 @@ MonoBehaviour:
   Radius: 7.36
   Orbits:
     Top:
-      Radius: 3
+      Radius: 1
       Height: 20
     Center:
-      Radius: 5
+      Radius: 1
       Height: 10
     Bottom:
-      Radius: 2
+      Radius: 1
       Height: -2
-    SplineCurvature: 0.5
+    SplineCurvature: 0
   RecenteringTarget: 2
   HorizontalAxis:
     Value: 0
@@ -324,9 +324,9 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.5
-    Center: 17.5
-    Range: {x: -10, y: 45}
+    Value: 20
+    Center: 20
+    Range: {x: 1, y: 40}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -488,6 +488,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c12010905964d258a425f123201ca9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleCamera
+  data:
+    rid: -2
+  owner:
+    rid: -2
   cmCamera: {fileID: 3342033487388985108}
   target: {fileID: 6707666044697765427}
-  cPreset: {fileID: 11400000, guid: d94ff85303bc3644e85ab06ce1fe0b79, type: 2}
+  cEntityPreset: {fileID: 11400000, guid: d94ff85303bc3644e85ab06ce1fe0b79, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

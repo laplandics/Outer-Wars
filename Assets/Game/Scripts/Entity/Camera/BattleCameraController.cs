@@ -7,7 +7,7 @@ public class BattleCameraController : CameraController
 {
     [SerializeField] private CinemachineCamera cmCamera;
     [SerializeField] private Transform target;
-    [SerializeField] private BattleCameraPreset cPreset;
+    [SerializeField] private BattleCameraEntityPreset cEntityPreset;
     
     private GameInputs _gameInputs;
     private Transform _cameraTr;
@@ -19,12 +19,12 @@ public class BattleCameraController : CameraController
     public override void Load(Action onLoad)
     {
         _gameInputs = G.GetService<InputsService>().GetGameInputs();
-        _cameraTr = owner.transform;
+        _cameraTr = cmCamera.transform;
         _inputAxis = cmCamera.GetComponent<CinemachineInputAxisController>();
         _cmOrbitalFollow = cmCamera.GetComponent<CinemachineOrbitalFollow>();
         _inputAxis.enabled = false;
         UpdateOrbitsHeight();
-        G.GetManager<RoutineManager>().StartLateUpdateAction(UpdateTargetPosition);
+        G.GetManager<RoutineManager>().StartLateUpdateAction(UpdateCamera);
         _gameInputs.Camera.Enable();
         _gameInputs.Camera.Position.performed += ReadMoveInput;
         _gameInputs.Camera.Position.canceled += ReadMoveInput;
@@ -49,26 +49,31 @@ public class BattleCameraController : CameraController
     {
         var zoomValue = input.ReadValue<float>();
         var currentZoom = cmCamera.Lens.OrthographicSize;
-        cmCamera.Lens.OrthographicSize = Mathf.Clamp(currentZoom + zoomValue * cPreset.zoomSpeed, 0.5f, cPreset.maxZoom);
+        cmCamera.Lens.OrthographicSize = Mathf.Clamp(currentZoom + zoomValue * cEntityPreset.zoomSpeed, 0.5f, cEntityPreset.maxZoom);
         UpdateOrbitsHeight();
     }
 
     private void UpdateOrbitsHeight()
     {
-        _cmOrbitalFollow.Orbits.Top.Height = cPreset.minTopOrbitHeight * cmCamera.Lens.OrthographicSize;
-        _cmOrbitalFollow.Orbits.Center.Height = cPreset.minCenterOrbitHeight * cmCamera.Lens.OrthographicSize;
-        _cmOrbitalFollow.Orbits.Bottom.Height = cPreset.minBottomOrbitHeight * cmCamera.Lens.OrthographicSize;
+        _cmOrbitalFollow.Orbits.Top.Height = cEntityPreset.minTopOrbitHeight * cmCamera.Lens.OrthographicSize;
+        _cmOrbitalFollow.Orbits.Center.Height = cEntityPreset.minCenterOrbitHeight * cmCamera.Lens.OrthographicSize;
+        _cmOrbitalFollow.Orbits.Bottom.Height = cEntityPreset.minBottomOrbitHeight * cmCamera.Lens.OrthographicSize;
     }
 
-    private void UpdateTargetPosition()
+    private void UpdateCamera()
     {
-        var moveDir = _cameraTr.up * _inputDir.z + _cameraTr.right * _inputDir.x;
-        target.position += moveDir * (cPreset.moveSpeed * Time.deltaTime);
+        target.rotation = _cameraTr.rotation;
+        var moveDir = target.up * _inputDir.z + target.right * _inputDir.x;
+        if (target.position.y >= 5f && moveDir.y > 0f) moveDir = new Vector3(moveDir.x, 0, moveDir.z);
+        else if(target.position.y <= -5f && moveDir.y < 0f) moveDir = new Vector3(-moveDir.x, 0, moveDir.z);
+        target.position += moveDir * (cEntityPreset.moveSpeed * Time.deltaTime);
+        if (_cmOrbitalFollow.VerticalAxis.Value < cmCamera.Lens.OrthographicSize * 2)
+            _cmOrbitalFollow.VerticalAxis.Value = cmCamera.Lens.OrthographicSize * 2;
     }
 
     public override void OnDisappear()
     {
-        G.GetManager<RoutineManager>().StopLateUpdateAction(UpdateTargetPosition);
+        G.GetManager<RoutineManager>().StopLateUpdateAction(UpdateCamera);
         _gameInputs.Camera.Zoom.performed += ChangeZoom;
         _gameInputs.Camera.Position.performed -= ReadMoveInput;
         _gameInputs.Camera.Position.canceled -= ReadMoveInput;
@@ -76,7 +81,7 @@ public class BattleCameraController : CameraController
         _gameInputs.Camera.RotationSwitcher.canceled -= LockRotation;
         _gameInputs.Camera.Disable();
         _gameInputs = null;
-        cPreset = null;
+        cEntityPreset = null;
         _cameraTr = null;
         target = null;
         cmCamera = null;

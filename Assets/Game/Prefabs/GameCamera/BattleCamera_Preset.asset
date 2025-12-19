@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b924a51f4ee24a08a6cc15bf6957f114, type: 3}
   m_Name: BattleCamera_Preset
   m_EditorClassIdentifier: Assembly-CSharp::CameraSettings
-  moveSpeed: 8
+  moveSpeed: 12
   zoomSpeed: 0.3
   maxZoom: 20
   minTopOrbitHeight: 2
   minCenterOrbitHeight: 1
   minBottomOrbitHeight: -0.2
-  cameraContainer: {fileID: 8494626800310157766, guid: 03730f8db8e7bb142821c9cb78b9d698, type: 3}
