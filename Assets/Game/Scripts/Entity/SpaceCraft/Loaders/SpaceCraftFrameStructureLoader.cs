@@ -61,7 +61,7 @@ public class SpaceCraftFrameStructureLoader : EntityLoader
             rightSpot.spotTr = newSpot.transform;
             newSpot.spotType = rightSpot.spotType;
             newSpot.data = spotData;
-            newSpot.spotStructureType = _data.frameStructureType;
+            newSpot.spotStructureType = _data.spaceCraftFrameStructureType;
             newSpot.Owner = Owner;
             rightSpot.spot = newSpot;
             Action onSpotLoaded = () => { _weaponsOnSpotsLoads[spotData.spotType] = true; };

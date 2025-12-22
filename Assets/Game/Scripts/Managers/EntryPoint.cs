@@ -31,6 +31,8 @@ public class EntryPoint : MonoBehaviour
         yield return LoadGameStates();
         yield return RunServices();
         yield return InitializeManagers();
+        foreach (var service in _gameServices) { yield return service.OnStart(); }
+        foreach (var manager in _sceneManagers) { yield return manager.OnStart(); }
         Eventer.Invoke(new SceneStarted());
     }
 
@@ -59,9 +61,10 @@ public class EntryPoint : MonoBehaviour
     {
         foreach (var prefab in _managersPrefabs)
         {
-            _sceneManagers.Add(Spawner.Spawn(prefab, Vector3.zero, Quaternion.identity, managersContainer).GetComponent<SceneManager>());
-            _sceneManagers[^1].gameObject.name = prefab.name;
-            yield return _sceneManagers[^1].Initialize();
+            var managerInstance = Spawner.Spawn(prefab, Vector3.zero, Quaternion.identity, managersContainer).GetComponent<SceneManager>();
+            managerInstance.gameObject.name = prefab.name;
+            _sceneManagers.Add(managerInstance);
+            yield return managerInstance.OnInitialize();
         }
         _managersPrefabs.Clear();
         G.CacheSceneManagers(_sceneManagers);
@@ -70,18 +73,25 @@ public class EntryPoint : MonoBehaviour
 
     private void End()
     {
-        Eventer.Invoke(new SceneEnded());
         Application.quitting -= End;
+        EndScene();
+        Eventer.Invoke(new SceneEnded());
         DeinitializeManagers();
         StopServices();
         UnloadStates();
         Eventer.ClearSubscribers();
         G.ResetData();
     }
-    
+
+    private void EndScene()
+    {
+        foreach (var manager in _sceneManagers) { manager.OnEnd(); }
+        foreach (var service in _gameServices) { service.OnEnd(); }
+    }
+
     private void DeinitializeManagers()
     {
-        foreach (var manager in _sceneManagers) { manager.Deinitialize(); }
+        foreach (var manager in _sceneManagers) { manager.OnDeinitialize(); }
         _sceneManagers.Clear();
         _managersHandle.Release();
         Eventer.Invoke(new ManagersDeinitialized());

@@ -10,9 +10,5 @@ public class InputsService : GameService
     
     public GameInputs GetGameInputs() => _gameInputs;
 
-    public override void Stop()
-    {
-        _gameInputs.Disable();
-        _gameInputs = null;
-    }
+    public override void Stop() { _gameInputs.Disable(); _gameInputs = null; }
 }

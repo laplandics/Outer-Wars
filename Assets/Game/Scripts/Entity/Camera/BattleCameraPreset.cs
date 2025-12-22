@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "BattleCamera_Preset", menuName = "Presets/CameraPreset")]
-public class BattleCameraEntityPreset : EntityPreset
+public class BattleCameraPreset : EntityPreset
 {
     public float moveSpeed;
-    public float zoomSpeed;
-    public float maxZoom;
-    public float minTopOrbitHeight;
-    public float minCenterOrbitHeight;
-    public float minBottomOrbitHeight;
+    public float maxXOffset;
+    public float maxYOffset;
+    public float maxZOffset;
+    
+    public float orthographicZoomSpeed;
+    public float maxOrthographicZoom;
+    
+    public float perspectiveZoomSpeed;
+    public float maxPerspectiveZoom;
+    public int perspectiveFoV;
+    public float minCameraRadius;
 }

@@ -7,6 +7,6 @@ public class GameCameraLoader : EntityLoader
         if (data is not GameCameraData gameCameraData) return;
         Action<CameraController> callback = controller =>
             { state.cameraController = controller; onLoad?.Invoke(); };
-        LoadEntityAsset(callback, nameof(GameCamera), gameCameraData.cameraController.ToString());
+        LoadEntityAsset(callback, nameof(GameCamera), gameCameraData.cameraController.ToString(), data);
     }
 }

@@ -8,30 +8,24 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class SpaceCraftManager : SceneManager
 {
-    public override IEnumerator Initialize()
+    public override IEnumerator OnStart()
     {
-        Eventer.Subscribe<SceneStarted>(BuildNewSpaceCraft);
+        var spName = "SpaceCraft";
+        var type = SpaceCraftClassType.Corvette;
+        var fraction = SpaceCraftFractionType.Humanity;
+        var controller = SpaceCraftControllerType.Neutral;
+        G.GetManager<RoutineManager>().StartRoutine(BuildNewSpaceCraft(spName, type, fraction, controller));
         yield break;
     }
 
-    private void BuildNewSpaceCraft(SceneStarted _)
-    {
-        var spName = "SpaceCraft";
-        var type = ClassType.Corvette;
-        var fraction = FractionType.Humanity;
-        var controller = ControllerType.Neutral;
-        Action<SpaceCraft> onBuild = _ => { };
-        G.GetManager<RoutineManager>().StartRoutine(BuildNewSpaceCraft(spName, type, fraction, controller, onBuild));
-    }
-
     private static IEnumerator BuildNewSpaceCraft
-        (string spName, ClassType ct, FractionType ft, ControllerType cnt, Action<SpaceCraft> onBuild)
+        (string spName, SpaceCraftClassType ct, SpaceCraftFractionType ft, SpaceCraftControllerType cnt, Action<SpaceCraft> onBuild = null)
     {
         var spaceCraftData = new SpaceCraftData();
         spaceCraftData.spaceCraftName = spName;
-        spaceCraftData.classType = ct;
-        spaceCraftData.fractionType = ft;
-        spaceCraftData.controllerType = cnt;
+        spaceCraftData.spaceCraftClassType = ct;
+        spaceCraftData.spaceCraftFractionType = ft;
+        spaceCraftData.spaceCraftControllerType = cnt;
         spaceCraftData.frameStructures = new List<SpaceCraftFrameStructureData>();
         spaceCraftData.internalStructures = new List<SpaceCraftInternalStructureData>();
 
@@ -40,12 +34,12 @@ public class SpaceCraftManager : SceneManager
         yield return LoadDataPreset<SpaceCraftFrameStructurePreset>(structurePresetName, preset => frameStructurePreset = preset);
         yield return new WaitUntil(() => frameStructurePreset != null);
         
-        var bowData = frameStructurePreset.GetData(FrameStructureType.Bow);
-        var deckData = frameStructurePreset.GetData(FrameStructureType.Deck);
-        var keelData = frameStructurePreset.GetData(FrameStructureType.Keel);
-        var portData = frameStructurePreset.GetData(FrameStructureType.Port);
-        var starboardData = frameStructurePreset.GetData(FrameStructureType.Starboard);
-        var sternData = frameStructurePreset.GetData(FrameStructureType.Stern);
+        var bowData = frameStructurePreset.GetData(SpaceCraftFrameStructureType.Bow);
+        var deckData = frameStructurePreset.GetData(SpaceCraftFrameStructureType.Deck);
+        var keelData = frameStructurePreset.GetData(SpaceCraftFrameStructureType.Keel);
+        var portData = frameStructurePreset.GetData(SpaceCraftFrameStructureType.Port);
+        var starboardData = frameStructurePreset.GetData(SpaceCraftFrameStructureType.Starboard);
+        var sternData = frameStructurePreset.GetData(SpaceCraftFrameStructureType.Stern);
         var frameStructures = new List<SpaceCraftFrameStructureData> {bowData, deckData, keelData, portData, starboardData, sternData};
         if (frameStructurePreset != null) Destroy(frameStructurePreset);
         
@@ -63,7 +57,7 @@ public class SpaceCraftManager : SceneManager
         var spaceCraftLoaded = false;
         spaceCraft.Load(() => spaceCraftLoaded = true);
         yield return new WaitUntil(() => spaceCraftLoaded);
-        onBuild.Invoke(spaceCraft);
+        onBuild?.Invoke(spaceCraft);
     }
 
     private static IEnumerator LoadDataPreset<T>(string presetName, Action<T> onLoad) where T : EntityPreset
@@ -75,10 +69,5 @@ public class SpaceCraftManager : SceneManager
         if (handle.Status != AsyncOperationStatus.Succeeded) throw handle.OperationException;
         onLoad.Invoke(presetInstance);
         handle.Release();
-    }
-
-    public override void Deinitialize()
-    {
-        Eventer.Unsubscribe<SceneStarted>(BuildNewSpaceCraft);
     }
 }

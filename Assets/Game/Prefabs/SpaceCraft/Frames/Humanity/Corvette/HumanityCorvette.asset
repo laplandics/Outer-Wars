@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HumanityCorvette
   m_EditorClassIdentifier: Assembly-CSharp::SpaceCraftFrameStructurePreset
   bow:
-    frameStructureType: 0
+    spaceCraftFrameStructureType: 0
     weaponSpots:
     - spotType: 0
       allowedWeapons:
@@ -35,7 +35,7 @@ MonoBehaviour:
       currentShield: 0
       currentHealth: 0
   deck:
-    frameStructureType: 1
+    spaceCraftFrameStructureType: 1
     weaponSpots:
     - spotType: 0
       allowedWeapons:
@@ -61,7 +61,7 @@ MonoBehaviour:
       currentShield: 0
       currentHealth: 0
   keel:
-    frameStructureType: 2
+    spaceCraftFrameStructureType: 2
     weaponSpots: []
     baseStats:
       baseArmor: 5
@@ -72,7 +72,7 @@ MonoBehaviour:
       currentShield: 0
       currentHealth: 0
   port:
-    frameStructureType: 3
+    spaceCraftFrameStructureType: 3
     weaponSpots:
     - spotType: 0
       allowedWeapons:
@@ -100,7 +100,7 @@ MonoBehaviour:
       currentShield: 0
       currentHealth: 0
   starboard:
-    frameStructureType: 4
+    spaceCraftFrameStructureType: 4
     weaponSpots:
     - spotType: 0
       allowedWeapons:
@@ -128,7 +128,7 @@ MonoBehaviour:
       currentShield: 0
       currentHealth: 0
   stern:
-    frameStructureType: 5
+    spaceCraftFrameStructureType: 5
     weaponSpots: []
     baseStats:
       baseArmor: 5

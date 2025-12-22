@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769057639919951498}
-  - component: {fileID: -5830829540876263151}
+  - component: {fileID: -3612315362354880079}
   m_Layer: 0
-  m_Name: HumanityCorvetteStarboardLaserMk1
+  m_Name: HumanityCorvettePortTorpedoLauncherMk1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 9192469652913087940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5830829540876263151
+--- !u!114 &-3612315362354880079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,12 +42,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4696256028134772688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb061bb46ee34fd2ba3dd6740a58147c, type: 3}
+  m_Script: {fileID: 11500000, guid: d61b70fb64264fe8be7314f0eadcb24b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Laser
+  m_EditorClassIdentifier: Assembly-CSharp::TorpedoLauncher
   data:
-    rid: -2
-  owner:
     rid: -2
   currentAmmo: {fileID: 0}
   references:

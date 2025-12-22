@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769057639919951498}
-  - component: {fileID: -5830829540876263151}
+  - component: {fileID: -7492287876291668884}
   m_Layer: 0
-  m_Name: HumanityCorvetteStarboardLaserMk1
+  m_Name: HumanityCorvetteStarboardArtilleryMk1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 9192469652913087940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5830829540876263151
+--- !u!114 &-7492287876291668884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,12 +42,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4696256028134772688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb061bb46ee34fd2ba3dd6740a58147c, type: 3}
+  m_Script: {fileID: 11500000, guid: b0d712e345b04fcca465550c97511490, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Laser
+  m_EditorClassIdentifier: Assembly-CSharp::Artillery
   data:
-    rid: -2
-  owner:
     rid: -2
   currentAmmo: {fileID: 0}
   references:

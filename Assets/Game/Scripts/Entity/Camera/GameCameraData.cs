@@ -1,8 +1,11 @@
 ﻿using System;
+using Unity.Cinemachine;
 
 [Serializable]
 public class GameCameraData : EntityData
-{ public CameraController cameraController; public enum  CameraController { BattleCameraController } }
+{ public CameraControllerType cameraController; public LensSettings.OverrideModes cameraMode; }
+
+public enum CameraControllerType { BattleCameraController }
 
 [Serializable]
 public class GameCameraState : EntityState

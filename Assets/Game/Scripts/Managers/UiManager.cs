@@ -6,21 +6,12 @@ public class UiManager : SceneManager
     [SerializeField] private GameUiData uiData;
     private GameUi _uiEntity;
 
-    public override IEnumerator Initialize()
-    {
-        Eventer.Subscribe<ManagersInitialized>(SpawnUi);
-        yield break;
-    }
-
-    private void SpawnUi(ManagersInitialized _)
+    public override IEnumerator OnStart()
     {
         _uiEntity = E.NewEntity<GameUi>(uiData);
         _uiEntity.Load(() => {});
+        yield break;
     }
 
-    public override void Deinitialize()
-    {
-        Eventer.Unsubscribe<ManagersInitialized>(SpawnUi);
-        E.DeleteEntity(_uiEntity);
-    }
+    public override void OnDeinitialize() { E.DeleteEntity(_uiEntity); }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpaceCraftLoader : EntityLoader
 {
     private Dictionary<InternalStructureType, bool> _internalStructuresLoads;
-    private Dictionary<FrameStructureType, bool> _frameStructuresLoads;
+    private Dictionary<SpaceCraftFrameStructureType, bool> _frameStructuresLoads;
     private bool _fractionLoaded;
     private bool _controllerLoaded;
     private bool _classLoaded;
@@ -35,6 +35,7 @@ public class SpaceCraftLoader : EntityLoader
         LoadClass();
         yield return new WaitUntil(() => _classLoaded);
         OnEntityAppear();
+        Debug.Log("On spacecraft appear");
         OnLoad.Invoke();
     }
 
@@ -47,7 +48,7 @@ public class SpaceCraftLoader : EntityLoader
         {
             var st = structureData.structureType;
             if (st == InternalStructureType.FreeCell) { _internalStructuresLoads[st] = true; continue; }
-            var structureName = $"{_data.classType.ToString()}" +
+            var structureName = $"{_data.spaceCraftClassType.ToString()}" +
                                 $"{st.ToString()}";
             Action<SpaceCraftInternalStructure> callback = structure =>
                 { _state.scInternalStructures.Add(structure); _internalStructuresLoads[st] = true; };
@@ -57,16 +58,16 @@ public class SpaceCraftLoader : EntityLoader
     
     private void LoadFrameStructures()
     {
-        _frameStructuresLoads = new Dictionary<FrameStructureType, bool>();
+        _frameStructuresLoads = new Dictionary<SpaceCraftFrameStructureType, bool>();
         _state.scFrameStructures = new List<SpaceCraftFrameStructure>();
-        foreach (var structureData in _data.frameStructures) { _frameStructuresLoads.Add(structureData.frameStructureType, false); }
+        foreach (var structureData in _data.frameStructures) { _frameStructuresLoads.Add(structureData.spaceCraftFrameStructureType, false); }
         foreach (var structureData in _data.frameStructures)
         {
-            var structureName = $"{_data.fractionType.ToString()}" +
-                                $"{_data.classType.ToString()}" +
-                                $"{structureData.frameStructureType.ToString()}";
+            var structureName = $"{_data.spaceCraftFractionType.ToString()}" +
+                                $"{_data.spaceCraftClassType.ToString()}" +
+                                $"{structureData.spaceCraftFrameStructureType.ToString()}";
             Action<SpaceCraftFrameStructure> callback = structure =>
-                { _state.scFrameStructures.Add(structure); _frameStructuresLoads[structureData.frameStructureType] = true; };
+                { _state.scFrameStructures.Add(structure); _frameStructuresLoads[structureData.spaceCraftFrameStructureType] = true; };
             LoadEntityAsset(callback, SpaceCraft.Label, structureName, structureData);
         }
     }
@@ -76,7 +77,7 @@ public class SpaceCraftLoader : EntityLoader
         _fractionLoaded = false;
         Action<SpaceCraftFraction> callback = fraction =>
             { _state.scFraction = fraction; _fractionLoaded = true; };
-        LoadEntityComponent(callback, _data.fractionType.ToString());
+        LoadEntityComponent(callback, _data.spaceCraftFractionType.ToString());
     }
 
     private void LoadController()
@@ -84,7 +85,7 @@ public class SpaceCraftLoader : EntityLoader
         _controllerLoaded = false;
         Action<SpaceCraftController> callback = controller => 
             { _state.scController = controller; _controllerLoaded = true; };
-        LoadEntityComponent(callback,_data.controllerType.ToString());
+        LoadEntityComponent(callback,_data.spaceCraftControllerType.ToString());
     }
 
     private void LoadClass()
@@ -92,7 +93,7 @@ public class SpaceCraftLoader : EntityLoader
         _classLoaded = false;
         Action<SpaceCraftClass> callBack = spaceCraftClass =>
             { _state.scClass = spaceCraftClass; _classLoaded = true; };
-        LoadEntityComponent(callBack, _data.classType.ToString());
+        LoadEntityComponent(callBack, _data.spaceCraftClassType.ToString());
     }
 
     private void OnEntityAppear()

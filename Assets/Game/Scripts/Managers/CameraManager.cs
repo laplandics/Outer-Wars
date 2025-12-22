@@ -6,22 +6,12 @@ public class CameraManager : SceneManager
     [SerializeField] private GameCameraData cameraData;
     private GameCamera _cameraEntity;
     
-    public override IEnumerator Initialize()
-    {
-        Eventer.Subscribe<ManagersInitialized>(SpawnCamera);
-        yield break;
-    }
-
-    private void SpawnCamera(ManagersInitialized _)
+    public override IEnumerator OnStart()
     {
         _cameraEntity = E.NewEntity<GameCamera>(cameraData);
         _cameraEntity.Load(() => {});
+        yield break;
     }
 
-
-    public override void Deinitialize()
-    {
-        Eventer.Unsubscribe<ManagersInitialized>(SpawnCamera);
-        E.DeleteEntity(_cameraEntity);
-    }
+    public override void OnEnd() { E.DeleteEntity(_cameraEntity); }
 }

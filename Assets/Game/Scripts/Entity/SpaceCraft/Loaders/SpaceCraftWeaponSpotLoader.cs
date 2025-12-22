@@ -11,8 +11,8 @@ public class SpaceCraftWeaponSpotLoader : EntityLoader
     private Action _onLoad;
     private bool _weaponLoaded;
     
-    public SpaceCraftWeaponSpotLoader
-        (IMainEntity owner, SpaceCraftWeaponSpot scWs, Action onLoad, EntityData data) : base(owner, onLoad, data)
+    public SpaceCraftWeaponSpotLoader(IMainEntity owner, SpaceCraftWeaponSpot scWs, Action onLoad, EntityData data)
+    : base(owner, onLoad, data)
     {
         if (Data is not SpaceCraftWeaponSpotData spotData) return;
         _scWeaponSpot = scWs;
@@ -40,13 +40,12 @@ public class SpaceCraftWeaponSpotLoader : EntityLoader
         foreach (var allowedWeaponTypeAndMark in _data.allowedWeapons) 
         { allowedTypes.Add(allowedWeaponTypeAndMark.type); allowedMarks.Add(allowedWeaponTypeAndMark.mark); }
         if (!allowedTypes.Contains(weaponType) || !allowedMarks.Contains(weaponMark)) { _weaponLoaded = true; return; }
-        var fractionName = ownerData.fractionType.ToString();
-        var className = ownerData.classType.ToString();
+        var fractionName = ownerData.spaceCraftFractionType.ToString();
+        var className = ownerData.spaceCraftClassType.ToString();
         var structureName = _scWeaponSpot.spotStructureType.ToString();
         var weaponName = weaponType.ToString();
         var weaponMarkName = weaponMark.ToString();
         var fullWeaponAssetName = $"{fractionName}{className}{structureName}{weaponName}{weaponMarkName}";
-        Debug.Log(fullWeaponAssetName);
         Action<SpaceCraftWeapon> callback = loadedWeapon =>
         { loadedWeapon.transform.SetParent(_scWeaponSpot.transform, false); _scWeaponSpot.weapon = loadedWeapon; _weaponLoaded = true; };
         LoadEntityAsset(callback, SpaceCraft.Label, fullWeaponAssetName, _data.weapon);

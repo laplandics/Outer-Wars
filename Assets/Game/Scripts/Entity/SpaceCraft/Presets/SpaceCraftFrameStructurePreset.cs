@@ -11,17 +11,17 @@ public class SpaceCraftFrameStructurePreset : EntityPreset
     [SerializeField] private SpaceCraftFrameStructureData starboard;
     [SerializeField] private SpaceCraftFrameStructureData stern;
 
-    public SpaceCraftFrameStructureData GetData(FrameStructureType frameStructureType)
+    public SpaceCraftFrameStructureData GetData(SpaceCraftFrameStructureType spaceCraftFrameStructureType)
     {
-        var dataDict = new Dictionary<FrameStructureType, SpaceCraftFrameStructureData>
+        var dataDict = new Dictionary<SpaceCraftFrameStructureType, SpaceCraftFrameStructureData>
         {
-            [FrameStructureType.Bow] = bow,
-            [FrameStructureType.Deck] = deck,
-            [FrameStructureType.Keel] = keel,
-            [FrameStructureType.Port] = port,
-            [FrameStructureType.Starboard] = starboard,
-            [FrameStructureType.Stern] = stern
+            [SpaceCraftFrameStructureType.Bow] = bow,
+            [SpaceCraftFrameStructureType.Deck] = deck,
+            [SpaceCraftFrameStructureType.Keel] = keel,
+            [SpaceCraftFrameStructureType.Port] = port,
+            [SpaceCraftFrameStructureType.Starboard] = starboard,
+            [SpaceCraftFrameStructureType.Stern] = stern
         };
-        return dataDict[frameStructureType];
+        return dataDict[spaceCraftFrameStructureType];
     }
 }

@@ -9,8 +9,6 @@ public class RoutineManager : SceneManager
     private readonly List<Action> _fixedUpdateActions = new();
     private readonly List<Action> _lateUpdateActions = new();
     
-    public override IEnumerator Initialize() { yield break;}
-    
     public Coroutine StartRoutine(IEnumerator routine) {var newRoutine = StartCoroutine(routine); return newRoutine;}
     public void EndRoutine(Coroutine coroutine) {StopCoroutine(coroutine);}
     public void StartUpdateAction(Action action) => _updateActions.Add(action);
@@ -24,5 +22,5 @@ public class RoutineManager : SceneManager
     private void FixedUpdate(){foreach (var action in _fixedUpdateActions){action?.Invoke();}}
     private void LateUpdate(){foreach (var action in _lateUpdateActions){action?.Invoke();}}
     
-    public override void Deinitialize() { StopAllCoroutines(); _updateActions.Clear(); _fixedUpdateActions.Clear(); _lateUpdateActions.Clear(); }
+    public override void OnDeinitialize() { StopAllCoroutines(); _updateActions.Clear(); _fixedUpdateActions.Clear(); _lateUpdateActions.Clear(); }
 }

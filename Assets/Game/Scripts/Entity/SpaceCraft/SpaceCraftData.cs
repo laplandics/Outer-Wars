@@ -4,17 +4,17 @@ using UnityEngine;
 
 [Serializable]
 public class SpaceCraftData : EntityData
-{ public string spaceCraftName; public ClassType classType; public ControllerType controllerType; public FractionType fractionType;
+{ public string spaceCraftName; public SpaceCraftClassType spaceCraftClassType; public SpaceCraftControllerType spaceCraftControllerType; public SpaceCraftFractionType spaceCraftFractionType;
     public List<SpaceCraftFrameStructureData> frameStructures; public List<SpaceCraftInternalStructureData> internalStructures; }
-public enum ClassType { Corvette, Cruiser, Destroyer, Battleship, Titan };
-public enum ControllerType { Enemy, Neutral, Ally, FleetMember }
-public enum FractionType { Other, Humanity, Ashy }
+public enum SpaceCraftClassType { Corvette, Cruiser, Destroyer, Battleship, Titan };
+public enum SpaceCraftControllerType { Enemy, Neutral, Ally, FleetMember }
+public enum SpaceCraftFractionType { Other, Humanity, Ashy }
 
 [Serializable]
 public class SpaceCraftFrameStructureData : EntityData
-{ public FrameStructureType frameStructureType; public List<SpaceCraftWeaponSpotData> weaponSpots;
+{ public SpaceCraftFrameStructureType spaceCraftFrameStructureType; public List<SpaceCraftWeaponSpotData> weaponSpots;
     public SpaceCraftFrameBaseStatsData baseStats; [ReadOnly] public SpaceCraftFrameCurrentStatsData currentStats; }
-public enum FrameStructureType { Bow, Deck, Keel, Port, Starboard, Stern }
+public enum SpaceCraftFrameStructureType { Bow, Deck, Keel, Port, Starboard, Stern }
 
 [Serializable]
 public class SpaceCraftFrameBaseStatsData
